@@ -47,7 +47,9 @@ class App(customtkinter.CTk):
     
     def btn_cantidad_camiones_on_click(self):
         toneladas = int(self.txt_toneladas.get())
-        cant_camiones = toneladas / 3500
+        conv_toneladas = toneladas * 1000
+        cant_camiones = conv_toneladas / 3500
+        cant_camiones = round(cant_camiones)
         
         alert("Toneladas", cant_camiones)
 
