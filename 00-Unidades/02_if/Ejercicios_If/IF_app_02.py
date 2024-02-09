@@ -5,8 +5,8 @@ from tkinter.simpledialog import askstring as prompt
 import customtkinter
 
 '''
-nombre:
-apellido:
+nombre: Delfina
+apellido: García Ocampo
 ---
 Ejercicio: if_02
 ---
@@ -33,7 +33,10 @@ class App(customtkinter.CTk):
 
 
     def btn_mostrar_on_click(self):
-        pass
+        edad = int(self.txt_edad.get())
+
+        if edad >= 18 :
+            alert("Alert", "MAYOR")
 
         
         
@@ -42,3 +45,14 @@ if __name__ == "__main__":
     app = App()
     app.geometry("300x300")
     app.mainloop()
+
+'''
+NOTAS
+Operadores:
+== un dato es igual a otro
+> un dato es mayor a otro
+< un dato es  menor a otro
+>= un dato es mayor/igual a otro
+<= un dato es menor/igual a otro
+
+'''
