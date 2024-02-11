@@ -5,8 +5,8 @@ from tkinter.simpledialog import askstring as prompt
 import customtkinter
 
 '''
-nombre:
-apellido:
+nombre: Delfina
+apellido: García Ocampo
 ---
 TP: IF_Iluminacion
 ---
@@ -43,7 +43,67 @@ class App(customtkinter.CTk):
 
 
     def btn_calcular_on_click(self):
-        pass
+        marca = self.combobox_marca.get()
+        cantidad = int(self.combobox_cantidad.get())
+        precio = 800
+
+        if cantidad > 5:
+            precio = precio * cantidad
+            precio_descuento = precio - (precio * 0.5)
+            mensaje = 'Tiene un descuento del 50%. Su importe final es de:', precio_descuento
+
+            alert("Alert", mensaje)
+
+            if precio_descuento > 4000:
+                precio_descuento = precio_descuento - (precio_descuento * 0.05)
+                mensaje = 'Tiene un descuento adicional del 5%. Su importe final es de:', precio_descuento
+
+                alert("Descuento adicional", mensaje)
+        elif cantidad == 5:
+            if marca == "ArgentinaLuz":
+                precio = precio * 5
+                precio_descuento = precio - (precio * 0.4)
+                mensaje = 'Tiene un descuento del 40%. Su importe final es de:', precio_descuento
+
+                alert("Alert", mensaje)
+            else:
+                precio = precio * 5
+                precio_descuento = precio - (precio * 0.3)
+                mensaje = 'Tiene un descuento del 30%. Su importe final es de:', precio_descuento
+
+                alert("Alert", mensaje)
+        elif cantidad == 4:
+            if marca == "ArgentinaLuz" or marca == "FelipeLamparas":
+                precio = precio * 4
+                precio_descuento = precio - (precio * 0.25)
+                mensaje = 'Tiene un descuento del 25%. Su importe final es de:', precio_descuento
+
+                alert("Alert", mensaje)
+            else:
+                precio = precio * 4
+                precio_descuento = precio - (precio * 0.2)
+                mensaje = 'Tiene un descuento del 20%. Su importe final es de:', precio_descuento
+
+                alert("Alert", mensaje)
+        elif cantidad == 3:
+            if marca == "ArgentinaLuz":
+                precio = precio * 3
+                precio_descuento = precio - (precio * 0.15)
+                mensaje = 'Tiene un descuento del 15%. Su importe final es de:', precio_descuento
+
+                alert("Alert", mensaje)
+            elif marca == "FelipeLamparas":
+                precio = precio * 3
+                precio_descuento = precio - (precio * 0.1)
+                mensaje = 'Tiene un descuento del 10%. Su importe final es de:', precio_descuento
+
+                alert("Alert", mensaje)
+            else:
+                precio = precio * 3
+                precio_descuento = precio - (precio * 0.05)
+                mensaje = 'Tiene un descuento del 5%. Su importe final es de:', precio_descuento
+
+                alert("Alert", mensaje)
         
     
 if __name__ == "__main__":
