@@ -104,6 +104,11 @@ class App(customtkinter.CTk):
                 mensaje = 'Tiene un descuento del 5%. Su importe final es de:', precio_descuento
 
                 alert("Alert", mensaje)
+        else:
+            precio = precio * cantidad
+            mensaje = 'Su importe final es de:', precio
+
+            alert("Alert", mensaje)
         
     
 if __name__ == "__main__":
