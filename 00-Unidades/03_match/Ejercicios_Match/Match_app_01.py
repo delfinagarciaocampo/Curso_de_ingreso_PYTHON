@@ -7,8 +7,8 @@ import customtkinter
 
 '''
 
-nombre:
-apellido:
+nombre: Delfina
+apellido: García Ocampo
 ---
 Ejercicio: Match_01
 ---
@@ -43,10 +43,53 @@ class App(customtkinter.CTk):
         
     
     def btn_informar_on_click(self):
-        pass
+        mes = self.combobox_mes.get()
+        mensaje = "Seleccione otro mes"
+
+        # if mes == "Enero":
+        #     mensaje = "Que comiences bien el año!!!"
+        
+        # elif mes == "Marzo":
+        #     mensaje = "A clases!!!"
+        
+        # elif mes == "Julio":
+        #     mensaje = "Se vienen las vacaciones!!!"
+        
+        # elif mes == "Diciembre":
+        #     mensaje = "Felices fiestas!!!"
+
+        match mes:
+            case "Enero":
+                mensaje = ""
+            case "Marzo":
+                mensaje = ""
+            case "Julio":
+                mensaje = ""
+            case "Diciembre":
+                mensaje = ""
+
+        alert("", mensaje)
     
     
 if __name__ == "__main__":
     app = App()
     app.geometry("300x300")
     app.mainloop()
+
+'''
+NOTA
+En python no existe switch pero si match
+El match es para cuando sabes la cantidad de casos a evaluar (por ejemplo, en este ejercicio, los 4 meses específicos)
+CASOS ESPECÍFICOS Y CORTOS
+
+match variable:
+    case Enero:
+        mensaje
+    case Marzo:
+        mensaje
+        etc
+
+    case _: --> default
+    es como un "else"
+
+'''

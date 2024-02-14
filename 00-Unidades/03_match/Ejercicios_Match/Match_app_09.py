@@ -6,8 +6,8 @@ import customtkinter
 
 
 '''
-nombre:
-apellido:
+nombre: Delfina
+apellido: García Ocampo
 ---
 Ejercicio: Match_09
 ---
@@ -47,7 +47,7 @@ class App(customtkinter.CTk):
         
         self.label_destinos = customtkinter.CTkLabel(master=self, text="Destinos")
         self.label_destinos.grid(row=2, column=0, padx=20, pady=10)
-        destinos = ['Bariloche', 'Mar del plata', 'Cataratas', 'Cordoba']
+        destinos = ['Bariloche', 'Mar del Plata', 'Cataratas', 'Córdoba']
         self.combobox_destino = customtkinter.CTkComboBox(master=self, values=destinos)
         self.combobox_destino.grid(row=3, column=0, padx=20, pady=(10, 10))
 
@@ -57,8 +57,58 @@ class App(customtkinter.CTk):
         
     
     def btn_informar_on_click(self):
-        pass
+        estaciones = self.combobox_estaciones.get()
+        destino = self.combobox_destino.get()
+        costo = 15000
+        aumento = 0
+        descuento = 0
+
+        match estaciones:
+
+            case "Invierno":
+                match destino:
+                    case "Bariloche":
+                        aumento = 20
+                        aumento = (costo * aumento)/100
+                        precio_final = costo + aumento
+                    case "Cataratas" | "Córdoba":
+                        descuento = 10
+                        descuento = (costo * descuento)/100
+                        precio_final = costo - descuento
+                    case "Mar del Plata":
+                        descuento = 20
+                        descuento = (costo * descuento)/100
+                        precio_final = costo - descuento
+
+            case "Verano":
+                match destino:
+                    case "Bariloche":
+                        descuento = 20
+                        descuento = (costo * descuento)/100
+                        precio_final = costo - descuento
+                    case "Mar del Plata":
+                        aumento = 20
+                        aumento = (costo * aumento)/100
+                        precio_final = costo + aumento
+                    case _:
+                        aumento = 10
+                        aumento = (costo * aumento)/100
+                        precio_final = costo + aumento
             
+            case _:
+                match destino:
+                    case "Córdoba":
+                        descuento = 0
+                        descuento = (costo * descuento)/100
+                        precio_final = costo - descuento
+                    case _:
+                        aumento = 10
+                        aumento = (costo * aumento)/100
+                        precio_final = costo + aumento
+                        
+
+        print(precio_final)
+        
     
 if __name__ == "__main__":
     app = App()

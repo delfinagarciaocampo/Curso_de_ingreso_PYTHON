@@ -6,8 +6,8 @@ import customtkinter
 
 
 '''
-nombre:
-apellido:
+nombre: Delfina
+apellido: García Ocampo
 ---
 Ejercicio: while_01
 ---
@@ -29,10 +29,21 @@ class App(customtkinter.CTk):
         
     
     def btn_mostrar_iteracion_on_click(self):
-        pass
+        num = 0
+
+        while num < 10:
+            num += 1
+            print(num)
     
     
 if __name__ == "__main__":
     app = App()
     app.geometry("300x300")
     app.mainloop()
+
+'''
+NOTA
+while condicion sea verdadera:
+    se ejecuta el código
+
+'''
