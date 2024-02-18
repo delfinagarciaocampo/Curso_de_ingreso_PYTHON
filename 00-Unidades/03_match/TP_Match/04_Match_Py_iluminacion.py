@@ -5,8 +5,8 @@ from tkinter.simpledialog import askstring as prompt
 import customtkinter
 
 '''
-nombre:
-apellido:
+nombre: Delfina
+apellido: García Ocampo
 ---
 TP: Iluminación
 ---
@@ -43,9 +43,134 @@ class App(customtkinter.CTk):
 
 
     def btn_calcular_on_click(self):
-        pass
+        cantidad = int(self.combobox_cantidad.get())
+        marca = self.combobox_marca.get()
+        precio = 800
+        descuento = 0
+
+        #Forma 1 (if marca, match cantidad)
+        # if marca == "ArgentinaLuz":
+
+        #     match cantidad:
+        #         case 6 | 7 | 8 | 9 | 10 | 11 | 12:
+        #             descuento = 0.5
+        #         case 5:
+        #             descuento = 0.4
+        #         case 4:
+        #             descuento = 0.25
+        #         case 3:
+        #             descuento = 0.15
+        #         case _:
+        #             descuento = 0
+        # elif marca == "FelipeLamparas":
+
+        #     match cantidad:
+        #         case 6 | 7 | 8 | 9 | 10 | 11 | 12:
+        #             descuento = 0.5
+        #         case 5:
+        #             descuento = 0.3
+        #         case 4:
+        #             descuento = 0.25
+        #         case 3:
+        #             descuento = 0.1
+        #         case _:
+        #             descuento = 0
+        # else:
+        #     match cantidad:
+        #         case 6 | 7 | 8 | 9 | 10 | 11 | 12:
+        #             descuento = 0.5
+        #         case 5:
+        #             descuento = 0.3
+        #         case 4:
+        #             descuento = 0.2
+        #         case 3:
+        #             descuento = 0.05
+        #         case _:
+        #             descuento = 0
+
+        #Forma 2 (if cantidad, match marca)
+        # if cantidad > 5:
+
+        #     match marca:
+        #         case _:
+        #             descuento = 0.5
         
-    
+        # elif cantidad == 5:
+
+        #     match marca:
+        #         case "ArgentinaLuz":
+        #             descuento = 0.4
+        #         case _:
+        #             descuento = 0.3
+        
+        # elif cantidad == 4:
+
+        #     match marca:
+        #         case "ArgentinaLuz" | "FelipeLamparas":
+        #             descuento = 0.25
+        #         case _:
+        #             descuento = 0.2
+        
+        # elif cantidad == 3:
+
+        #     match marca:
+        #         case "ArgentinaLuz":
+        #             descuento = 0.15
+        #         case "FelipeLamparas":
+        #             descuento = 0.1
+        #         case _:
+        #             descuento = 0.05
+        
+        # else:
+        #   descuento = 0
+
+        #Forma 3 (match marca, match cantidad)
+        match marca:
+            
+            case "ArgentinaLuz":
+                match cantidad:
+                    case 6 | 7 | 8 | 9 | 10 | 11 | 12:
+                        descuento = 0.5
+                    case 5:
+                        descuento = 0.4
+                    case 4:
+                        descuento = 0.25
+                    case 3:
+                        descuento = 0.15
+                    case _:
+                        descuento = 0
+            
+            case "FelipeLamparas":
+                match cantidad:
+                    case 6 | 7 | 8 | 9 | 10 | 11 | 12:
+                        descuento = 0.5
+                    case 5:
+                        descuento = 0.3
+                    case 4:
+                        descuento = 0.25
+                    case 3:
+                        descuento = 0.1
+                    case _:
+                        descuento = 0
+            
+            case _:
+                match cantidad:
+                    case 6 | 7 | 8 | 9 | 10 | 11 | 12:
+                        descuento = 0.5
+                    case 5:
+                        descuento = 0.3
+                    case 4:
+                        descuento = 0.2
+                    case 3:
+                        descuento = 0.05
+                    case _:
+                        descuento = 0
+
+        precio_total = precio * cantidad - ((precio * cantidad) * descuento)
+        if precio_total > 4000:
+            precio_total = precio_total - precio_total * 0.05
+        print(precio_total)
+
 if __name__ == "__main__":
     app = App()
     app.geometry("300x300")
