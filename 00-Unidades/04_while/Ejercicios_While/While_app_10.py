@@ -26,7 +26,7 @@ Informar los resultados mediante alert()
 '''
 
 class App(customtkinter.CTk):
-    
+
     def __init__(self):
         super().__init__()
 
@@ -54,14 +54,14 @@ class App(customtkinter.CTk):
             if num > 0:
                 suma_p = suma_p + num
                 cont_p += 1
-            
+
             if num < 0:
                 suma_n = suma_n + num
                 cont_n +=1
-            
+
             if num == 0:
                 cont_ceros += 1
-        
+
         if cont_n > cont_p:
             dif = cont_n - cont_p
         else:
@@ -74,7 +74,7 @@ class App(customtkinter.CTk):
         alert("Cantidad de ceros ingresados", cont_ceros)
         alert("Diferencia cantidad de numeros positivos y negativos", dif)
 
-    
+
 if __name__ == "__main__":
     app = App()
     app.geometry("300x300")

@@ -39,7 +39,7 @@ class App(customtkinter.CTk):
         self.btn_mostrar.grid(row=2, padx=20, pady=20, columnspan=2, sticky="nsew")
 
     def btn_comenzar_ingreso_on_click(self):
-        contador = 0
+        bandera = True
 
         while True:
             num = prompt("", "Ingrese un número")
@@ -49,16 +49,16 @@ class App(customtkinter.CTk):
 
             num = int(num)
 
-            if contador == 0:
+            if bandera == True:
                 max = num
                 min = num
+                bandera = False
             else:
                 if num > max:
                     max = num
                 if num < min:
                     min = num
 
-            contador += 1
         
         self.txt_maximo.insert(0, max)
         self.txt_minimo.insert(0, min)

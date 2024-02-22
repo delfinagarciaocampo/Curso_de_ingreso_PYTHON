@@ -33,12 +33,15 @@ class App(customtkinter.CTk):
         suma = 0
 
         while num < 10:
+
+            # if num % 2 == 0:
+            #    suma = suma + num  (otra forma)
             num += 2
             suma = suma + num
             print(num)
         print(suma)
-    
-    
+
+
 if __name__ == "__main__":
     app = App()
     app.geometry("300x300")

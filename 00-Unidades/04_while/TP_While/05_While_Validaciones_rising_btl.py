@@ -5,8 +5,8 @@ from tkinter.simpledialog import askstring as prompt
 import customtkinter
 
 '''
-nombre:
-apellido:
+nombre: Delfina
+apellido: García Ocampo
 ---
 TP: While_validaciones_rising_btl
 ---
@@ -55,7 +55,39 @@ class App(customtkinter.CTk):
         self.btn_validar.grid(row=4, pady=20, columnspan=2, sticky="nsew")
 
     def btn_validar_on_click(self):
-        pass
+        # apellido = self.txt_apellido.get()
+        # edad = int(self.txt_edad.get())
+        # estado = self.combobox_tipo.get()
+        # legajo = int(self.txt_legajo.get())
+        # Para qué me sirve todo lo esto si voy a necesitar ventanas emergentes al final?
+
+        while True:
+            apellido = prompt("Apellido", "Ingrese el apellido")
+            edad = prompt("Edad", "Ingrese la edad")
+            estado = prompt("Estado civil", "Ingrese el estado civil")
+            legajo = prompt("Legajo", "Ingrese el legajo")
+
+            edad = int(edad)
+            legajo = int(legajo)
+
+            if apellido == None:
+                break
+
+            if edad < 17 or edad > 91:
+                alert("Error", "La edad debe de ser entre 18 y 90 años")
+                break
+
+            if legajo > 9999:
+                alert("Error", "El legajo ingresado no es válido")
+                break
+
+            if estado != "Soltero/a" and estado != "Casado/a" and estado != "Divorciado/a" and estado != "Viudo/a":
+                alert("Error", "El estado no existe")
+                break
+
+            mensaje = ("{0} tiene {1} años, su estado civil es {2}. Legajo {3}").format(apellido, edad, estado, legajo)
+            alert("", mensaje)
+
 
 
 if __name__ == "__main__":
