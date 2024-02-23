@@ -1,7 +1,7 @@
 import tkinter
 from tkinter.messagebox import showinfo as alert
 from tkinter.messagebox import askyesno as question
-from tkinter.simpledialog import askstring as input
+from tkinter.simpledialog import askstring as prompt
 import customtkinter
 
 '''
@@ -63,25 +63,25 @@ class App(customtkinter.CTk):
 
         while seguir:
             # Ingreso de datos
-            nombre = input("Ingrese nombre")
+            nombre = prompt("", "Ingrese nombre")
 
-            edad = input("Ingrese edad")
+            edad = prompt("", "Ingrese edad")
             edad = int(edad)
             while edad < 18:
-                edad = input("No puede ser menor a 18, reingrese edad")
+                edad = prompt("", "No puede ser menor a 18, reingrese edad")
                 edad = int(edad)
             
-            genero = input("Ingrese género")
+            genero = prompt("", "Ingrese género")
             while genero != "Masculino" and genero != "Femenino" and genero != "Otro":
-                genero = input("Reingrese el género")
+                genero = prompt("", "Reingrese el género")
             
-            tecnologia = input("Ingrese tecnología")
+            tecnologia = prompt("", "Ingrese tecnología")
             while tecnologia != "IA" and tecnologia != "RV/RA" and tecnologia != "IOT":
-                tecnologia = input("Reingrese tecnología")
+                tecnologia = prompt("", "Reingrese tecnología")
 
             # Procesamiento de datos
-            # if genero == "Masculino" and (tecnologia == "IA" or tecnologia == "IOT") and 25 <= edad and edad <= 50:
-            #     contador_masculino_IOT_IA += 1
+            if genero == "Masculino" and (tecnologia == "IA" or tecnologia == "IOT") and 25 <= edad and edad <= 50:
+                contador_masculino_IOT_IA += 1
 
             if tecnologia == "IOT":
                 contador_IOT += 1
@@ -102,8 +102,7 @@ class App(customtkinter.CTk):
             match genero:
                 case "Masculino":
                     contador_masc += 1
-                    if (tecnologia == "IA" or tecnologia == "IOT") and 25 <= edad and edad <= 50:
-                        contador_masculino_IOT_IA += 1
+                    
                 case "Femenino":
                     contador_fem += 1
                     if tecnologia == "IA":
