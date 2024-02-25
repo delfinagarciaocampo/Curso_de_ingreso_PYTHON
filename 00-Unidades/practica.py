@@ -23,7 +23,6 @@ Los datos a ingresar por cada encuestado son:
 En esta opción, se ingresaran empleados hasta que el usuario lo desee.
 
 Una vez finalizado el ingreso, mostrar:
-
     #! 1) - Cantidad de empleados de género masculino que votaron por IOT o IA, cuya edad este entre 25 y 50 años inclusive.
     #! 2) - Tecnología que mas se votó.
     #! 3) - Porcentaje de empleados por cada genero
@@ -45,100 +44,116 @@ class App(customtkinter.CTk):
 
     def btn_comenzar_ingreso_on_click(self):
         seguir = True
-        contador_masculino_IOT_IA: 0
+
+        bandera = True
+
+        contador_masc_IOT_IA = 0
+
         contador_IOT = 0
-        contador_IA = 0
         contador_RV_RA = 0
+        contador_IA = 0
 
         contador_masc = 0
         contador_fem = 0
         contador_otro = 0
 
-        contador_IOT_edad = 0
-        
-        contador_fem_IA = 0
-        acumulador_edad_fem_IA = 0
+        votaron_IOT_edad = 0
 
-        minimo_edad = 0
+        cont_fem_edad = 0
+        acum_fem_edad = 0
 
         while seguir:
-            # Ingreso de datos
-            nombre = prompt("", "Ingrese nombre")
+            #Ingreso de datos
+            nombre = prompt("Nombre", "Ingrese el nombre")
 
-            edad = prompt("", "Ingrese edad")
-            edad = int(edad)
+            edad = int(prompt("Edad", "Ingrese la edad"))
             while edad < 18:
-                edad = prompt("", "No puede ser menor a 18, reingrese edad")
-                edad = int(edad)
-            
-            genero = prompt("", "Ingrese género")
+                edad = int(prompt("Error", "No puede ser menor a 18, reingrese la edad"))
+
+            genero = prompt("Género", "Ingrese el género")
             while genero != "Masculino" and genero != "Femenino" and genero != "Otro":
-                genero = prompt("", "Reingrese el género")
-            
-            tecnologia = prompt("", "Ingrese tecnología")
-            while tecnologia != "IA" and tecnologia != "RV/RA" and tecnologia != "IOT":
-                tecnologia = prompt("", "Reingrese tecnología")
+                genero = prompt("Error", "Reingrese el género")
 
-            # Procesamiento de datos
-            if genero == "Masculino" and (tecnologia == "IA" or tecnologia == "IOT") and 25 <= edad and edad <= 50:
-                contador_masculino_IOT_IA += 1
+            tecno = prompt("Tecnología", "Ingrese la tecnología")
+            while tecno != "IA" and tecno != "RV/RA" and tecno != "IOT":
+                tecno = prompt("Error", "Tecnología no válida, reingresar")
 
-            if tecnologia == "IOT":
-                contador_IOT += 1
-                #P. 4
-                if (edad > 18 and edad < 25) or (edad > 33 and edad < 42):
-                    contador_IOT_edad += 1
-            elif tecnologia == "IA":
-                contador_IA += 1
-            else:
-                contador_RV_RA += 1
-                #P. 6
-                if edad < minimo_edad or contador_RV_RA == 1:
-                    minimo_edad = edad
-                    nombre_minimo = nombre
-                    genero_minimo = genero
-            '''También se puede hacer con un match'''
-
+            #Punto 1 (Cantidad de masc que votaron por IOT o IA entre 25/50 años) // Punto 3 (Porcentaje de empleados por cada género)
             match genero:
                 case "Masculino":
+                    if (tecno == "IOT" or tecno == "IA") and 25 <= edad and edad <= 50:
+                        contador_masc_IOT_IA += 1
                     contador_masc += 1
-                    
                 case "Femenino":
                     contador_fem += 1
-                    if tecnologia == "IA":
-                        contador_fem_IA += 1
-                        acumulador_edad_fem_IA = acumulador_edad_fem_IA + edad
+                    #Punto 5 (Prom de edad femenino que votó por IA)
+                    if tecno == "IA":
+                        cont_fem_edad += 1
+                        acum_fem_edad = acum_fem_edad + edad
                 case "Otro":
                     contador_otro += 1
 
-            seguir = question("Seguir",  "¿Ingresar otro empleado?")
+            #Punto 2 (Tecnología más votada)
+            match tecno:
+                case "IOT":
+                    contador_IOT += 1
+                    #Punto 4 (Porcentaje que votó IOT entre 18/25 y 33/42)
+                    if (edad >= 18 and edad <= 25) or (edad >= 33 and edad <= 42):
+                        votaron_IOT_edad += 1
+                case "IA":
+                    contador_IA += 1
+                case "RV/RA":
+                    contador_RV_RA += 1
+                    #Punto 6 (Nombre y género del empleado que votó por RV/RA con menor edad)
+                    if bandera == True:
+                        menor_edad = edad
+                        menor_nombre = nombre
+                        menor_genero = genero
+                        bandera = False
+                    else:
+                        if menor_edad > edad:
+                            menor_edad = edad
+                            menor_nombre = nombre
+                            menor_genero = genero
 
-        print(f"1. Cantidad masculinos que votaron IOT/IA en el rango de edad: {contador_masculino_IOT_IA}")
-
-        if contador_IOT > contador_IA and contador_IOT > contador_RV_RA:
-            print("2. IOT fue el más votado")
-        elif contador_IA > contador_IOT and contador_IA > contador_RV_RA:
-            print("2. IA fue el más votado")
-        else:
-            print("2. RV/RA fue el más votado")
-
-        total_empleados = contador_otro + contador_fem + contador_masc
+            seguir = question("Continuar", "¿Ingresar otro?")
         
-        porcentaje_fem = contador_fem * 100 / total_empleados
-        porcentaje_masc = contador_masc * 100 / total_empleados
-        porcentaje_otro = contador_otro * 100 / total_empleados
-        print(f"3. Porcentaje:\n\tMasculino: {porcentaje_masc}%\n\tFemenino: {porcentaje_fem}\n\tOtro: {porcentaje_otro}")
+        #Punto 2
+        if contador_IA > contador_IOT and contador_IA > contador_RV_RA:
+            mas_votada = "La tecnología más votada es la IA"
+        
+        if contador_RV_RA > contador_IOT and contador_RV_RA > contador_IA:
+            mas_votada = "La tecnología más votada es la RV/RA"
+        
+        if contador_IOT > contador_IA and contador_IOT > contador_RV_RA:
+            mas_votada = "La tecnología más votada es la IOT"
 
-        porcentaje_IOT_edad = (contador_IOT_edad * 100) / total_empleados
-        print(f"4. Porcentaje de empleados que votaron por IOT por edad: {porcentaje_IOT_edad}%")
+        #Punto 3
+        empleados = contador_masc + contador_fem + contador_otro
+        porc_masc = contador_masc * 100 / empleados
+        porc_fem = contador_fem * 100/ empleados
+        porc_otro = contador_otro * 100 / empleados
 
-        if contador_fem_IA > 0:
-            promedio_edad_femenino_IA = acumulador_edad_fem_IA / contador_fem_IA
-        else:
-            promedio_edad_femenino_IA = "No se ingresaron femeninos que votaron IA"
-        print(f"5. Promedio de edad: {promedio_edad_femenino_IA}")
+        #Punto 4
+        porc_IOT_edad = votaron_IOT_edad * 100 / empleados
 
-        print(f"6. {minimo_edad}{nombre_minimo}{genero_minimo}")
+        #Punto 5
+        prom_fem_IA = acum_fem_edad / cont_fem_edad
+
+
+        #MENSAJES
+        '''P1'''
+        print(f"La cantidad de empleados masculinos entre 25 y 50 años que votaron por IOT o IA es de: {contador_masc_IOT_IA}")
+        '''P2'''
+        print(mas_votada)
+        '''P3'''
+        print(f"Promedio empleados:\n\tMasculino: {porc_masc}%\n\tFemenino: {porc_fem}%\n\tOtro: {porc_otro}%")
+        '''P4'''
+        print(f"Porcentaje de empleados que votaron por IOT entre 18/25 y 33/42 años: {porc_IOT_edad}%")
+        '''P5'''
+        print(f"El promedio de edad de los empleados de genero femenino que votaron por IA es de {prom_fem_IA}")
+        '''P6'''
+        print(f"El empleado más jóven que votó por RV/RA es:\n\tNombre: {menor_nombre}\n\tGénero: {menor_genero}")
 
 
 if __name__ == "__main__":

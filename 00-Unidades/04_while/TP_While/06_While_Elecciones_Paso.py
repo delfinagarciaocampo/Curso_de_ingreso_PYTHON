@@ -35,41 +35,69 @@ class App(customtkinter.CTk):
         self.btn_validar.grid(row=4, pady=20, columnspan=2, sticky="nsew")
 
     def btn_validar_on_click(self):
+        seguir = True
+
         bandera = True
-        contador = 0
-        acum_edad = 0
 
-        while True:
-            nom = prompt("Nombre", "Ingrese el nombre del candidato")
-            edad = int(prompt("Edad", "Ingrese la edad del candidato"))
+        acumulador_edad = 0
+        contador_edad = 0
 
-            if edad < 25:
-                edad = int(prompt("Error", "La edad no puede ser menor a 25. Ingrese la edad nuevamente"))
-            
-            votos = int(prompt("Votos", "Ingrese la cantidad de votos"))
+        acumulador_votos = 0
 
-            if votos < 0:
-                votos = int(prompt("Error", "La cantidad de votos no puede ser un número negativo. Ingrese nuevamente"))
-            
-            candidato = "{0}, {1} años, {2} votos".format(nom, edad, votos)
+        while seguir:
+            #Ingreso de datos // Conf dato correcto
+            nombre = prompt("Nombre", "Ingrese el nombre")
 
+            edad = int(prompt("Edad", "Ingrese la edad"))
+            while edad < 25:
+                edad = int(prompt("Error", "No puede ser menor de 25, reingrese la edad"))
+            #Punto 3 -> Promedio de edades
+            acumulador_edad = acumulador_edad + edad
+            contador_edad += 1
+
+            votos = int(prompt("Votos","Ingrese cantidad de votos"))
+            while votos < 0:
+                votos = prompt("Error", "Lacantidad no puede ser negativa, reingresar")
+                votos = int(votos)
+            #Punto 4 -> total votos
+            acumulador_votos = acumulador_votos + votos
+            mensaje_total_votos = "El total de votos emitidos es {0}".format(acumulador_votos)
+
+            #Punto 1 -> Nombre del candidato con más votos // Punto 2 -> Nombre y edad del menos votado
             if bandera == True:
-                mayor_votos = votos
-                menor_votos = votos
+                mas_votos = votos
+                candidato_mas_votos = nombre
+                menos_votos = votos
+                candidato_menos_votos = nombre
+                edad_menos_votos = edad
                 bandera = False
             else:
-                if mayor_votos < votos:
-                    mayor_votos = votos
-                    nom_mayor = nom
-                    candidato_mas_votos = "Con {0} cantidad de votos, {1} tiene más votos".format(mayor_votos, nom_mayor)
-                if menor_votos > votos:
-                    menor_votos = votos
-                    nom_menor = nom
-                    candidato_menos_votos = "Con {0} cantidad de votos, {1} tiene menos votos".format(menor_votos, nom_menor)
+                if votos > mas_votos:
+                    mas_votos = votos
+                    candidato_mas_votos = nombre
+                if votos < menos_votos:
+                    menos_votos = votos
+                    candidato_menos_votos = nombre
+                    edad_menos_votos = edad
             
-            contador += 1
-            acum_edad = acum_edad + edad
+            mensaje_c_mas_votos = "El candidato más votado es " + candidato_mas_votos
+            mensaje_c_menos_votos = "El candidato menos votado es {0} con {1} años de edad".format(candidato_menos_votos, edad_menos_votos) #, candidato_menos_votos, "con", edad_menos_votos , "años de edad"
+
+            seguir = question("Continuar", "¿Continuar ingresando?")
         
+        #P3
+        promedio = acumulador_edad / contador_edad
+        mensaje_promedio = "El promedio de edad es {0}".format(promedio)
+
+        #Mensajes
+        #P1
+        alert("Punto 1", mensaje_c_mas_votos)
+        #P2
+        alert("Punto 2", mensaje_c_menos_votos)
+        #P3
+        alert("Punto 3", mensaje_promedio)
+        #P4
+        alert("Punto 4", mensaje_total_votos)
 
 
 if __name__ == "__main__":
