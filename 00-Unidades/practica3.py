@@ -60,8 +60,141 @@ class App(customtkinter.CTk):
 
 
     def btn_mostrar_on_click(self):
-        pass
-    
+        seguir = True
+        precio_alto_bandera = False
+
+        descuento = 0
+
+        precio = 0
+
+        cont_masc_campo = 0
+        cont_fem_campo = 0
+        cont_otro_campo = 0
+
+        general_credito = 0
+        general_credito_cont_edad = 0
+        general_credito_acum_edad = 0
+
+        cont_total_personas = 0
+        cont_platea_credito = 0
+
+        acum_descuento_credito = 0
+
+        precio_alto = 0
+
+        edad_primo = 0
+
+        acum_total_platea = 0
+
+        while seguir:
+            #Ingreso de datos
+            nombre = prompt("Nombre", "Ingrese el nombre")
+
+            edad = int(prompt("Edad", "Ingrese la edad"))
+            while edad < 16 or edad == None:
+                edad = int(prompt("Error", "Edad no válida, reingresar"))
+
+            genero = prompt("Género", "Ingrese género")
+            while genero != "Masculino" and genero != "Femenino" and genero != "Otro":
+                genero = prompt("Error", "Reingresar")
+
+            tipo_entrada = prompt("Tipo de entrada", "Ingrese el tipo de entrada")
+            while tipo_entrada != "General" and tipo_entrada != "Campo" and tipo_entrada != "Platea":
+                tipo_entrada = prompt("Error", "Entrada no válida, reingresar")
+            
+            pago = prompt("Medio de pago", "Ingrese el medio de pago")
+            while pago != "Crédito" and pago != "Efectivo" and pago != "Débito":
+                pago = prompt("Error", "Medio de pago no válido, elija otro")
+
+            #Descuentos
+            match pago:
+                case "Crédito":
+                    descuento = 0.2
+                    #Punto 4 (Total de descuento en pesos)
+                    descuento_credito = precio * descuento
+                    acum_descuento_credito = acum_descuento_credito + descuento_credito
+                case "Débito":
+                    descuento = 0.15
+                case "Efectivo":
+                    descuento = 0
+
+            match tipo_entrada:
+                case "General":
+                    precio = 16000
+                    #Punto 2 (Determinar cuántos pagaron con crédito y edad promedio)
+                    if pago == "Crédito":
+                        general_credito += 1
+                        general_credito_cont_edad += 1
+                        general_credito_acum_edad = general_credito_acum_edad + edad
+                    #Punto 5 (Nombre y edad de la persona que pagó el precio más alto)
+                    while precio_alto_bandera == True:
+                        if pago == "Débito":
+                            if precio_alto == 0:
+                                precio_alto = precio_total
+                                precio_alto_edad = edad
+                                precio_alto_nombre = nombre
+                            else:
+                                if precio_alto > precio_total:
+                                    precio_alto_edad = edad
+                                    precio_alto_nombre = nombre
+                                    precio_alto_bandera = False
+                case "Campo":
+                    precio = 25000
+                    #Punto 1 (Género más frecuente)
+                    match genero:
+                        case "Masculino":
+                            cont_masc_campo += 1
+                        case "Femenino":
+                            cont_fem_campo += 1
+                        case "Otro":
+                            cont_otro_campo += 1
+                case "Platea":
+                    precio = 30000
+                    #Punto 3 (Calcular porcentaje que compró platea con tarjeta de débito)
+                    if pago == "Crédito":
+                        cont_platea_credito += 1
+                    #Punto 6 (Cantidad de personas con edad numero primo)
+                    for i in range(2, edad):
+                        if edad % i != 0:
+                            edad_primo += 1
+                    #Punto 7 (Cantidad de personas con edad multiplo de 6, acumulador de precio)
+                    if pago == "Débito":
+                        for i in range(6, edad):
+                            if edad % 6 == 0:
+                                acum_total_platea = acum_total_platea + acum_total_platea
+
+            precio_total = precio - precio * descuento
+            precio_total_mssj = "El precio total es de ${0}".format(precio_total)
+            alert("Precio final", precio_total_mssj)
+
+            cont_total_personas += 1
+            seguir = question("Continuar", "¿Realizar otra operación?")
+
+
+        #Punto 1
+        if cont_masc_campo > cont_fem_campo and cont_masc_campo > cont_otro_campo:
+            mensaje = "El género más frecuente de quienes compran 'Campo' es: Masculino"
+        if cont_fem_campo > cont_masc_campo and cont_fem_campo > cont_otro_campo:
+            mensaje = "El género más frecuente de quienes compran 'Campo' es: Femenino"
+        if cont_otro_campo > cont_masc_campo and cont_otro_campo > cont_fem_campo:
+            mensaje = "El género más frecuente de quienes compran 'Campo' es: Otro"
+
+        #Punto 2
+        promedio_edad_general_credito = general_credito_acum_edad / general_credito_cont_edad
+
+        #Punto 3
+        porcentaje_platea_credito = cont_platea_credito * 100 / cont_total_personas
+
+        print(f"1. {mensaje}")
+        print(f"2. Un total de {general_credito} personas compraron 'General' con tarjeta de crédito, un promedio en edad de: {promedio_edad_general_credito}")
+        print(f"3. El {porcentaje_platea_credito}% que compró 'Platea' pagó con tarjeta de crédito")
+        print(f"4. El total de descuentos con tarjeta de crédito en pesos es de ${acum_descuento_credito}")
+        print(f"5. Quien pagó el precio más alto por una entrada 'General' con débito fue:\n\tNombre: {precio_alto_nombre}\n\tEdad: {precio_alto_edad}")
+        print(f"6. Un total de {edad_primo} personas compraron 'Platea' y su edad es un número primo")
+        print(f"7. El monto total recaudado por la venta de entradas de tipo 'Platea' y pagadas con tarjeta de debito por personas cuyas edades son múltiplos de 6 es de: {acum_total_platea}")
+
+
+
 if __name__ == "__main__":
     app = App()
     app.geometry("300x300")
