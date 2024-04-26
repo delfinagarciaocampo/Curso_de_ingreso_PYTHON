@@ -159,9 +159,8 @@ class App(customtkinter.CTk):
                             edad_primo += 1
                     #Punto 7 (Cantidad de personas con edad multiplo de 6, acumulador de precio)
                     if pago == "Débito":
-                        for i in range(6, edad):
-                            if edad % 6 == 0:
-                                acum_total_platea = acum_total_platea + acum_total_platea
+                        if edad % 6 == 0:
+                            acum_total_platea = acum_total_platea + acum_total_platea
 
             precio_total = precio - precio * descuento
             precio_total_mssj = "El precio total es de ${0}".format(precio_total)
